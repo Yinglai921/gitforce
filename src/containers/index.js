@@ -61,7 +61,6 @@ class Index extends Component{
 
                 <div className="row">
                     {repoContributors.map((data) => {
-                        console.log(data)
                         return this.renderGraphs(data);
                     })}
                 </div>

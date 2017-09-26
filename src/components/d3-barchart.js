@@ -25,10 +25,12 @@ class D3Barchart extends Component{
    }
 
    createBarchart(svgDomNode) {
+        d3.select(svgDomNode).selectAll("*").remove();
+
         // set the dimensions and margins of the graph
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+        var margin = {top: 20, right: 20, bottom: 40, left: 40},
         width = 700 - margin.left - margin.right,
-        height = 250 - margin.top - margin.bottom;
+        height = 300 - margin.top - margin.bottom;
 
         // set the ranges
         var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
@@ -57,13 +59,14 @@ class D3Barchart extends Component{
         // get the data
 
         const data = this.props.data;
-        // format the data
-        let formatDay = d3.time.format("%m-%d");
+
         data.forEach(function(d) {
-            d.w = new Date(d.w * 1000);
-           // d.w = formatDay(d.w);
+            if (typeof d.w !== "object"){
+                d.w = new Date(d.w * 1000);
+            }
         });
 
+        console.log(data)
         // Scale the range of the data in the domains
         x.domain(data.map(function(d) { return d.w; }));
         // y.domain([0, d3.max(data, function(d) { return d.c; })]);
@@ -99,8 +102,6 @@ class D3Barchart extends Component{
             .attr("dy", ".71em")
             .style("text-anchor", "end")
             .text("Commits");
-        
-
       
    }
 
